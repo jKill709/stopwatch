@@ -14,16 +14,20 @@ public:
     Stopwatch() : elapsed(0), running(false) {}
 
     // Start or resume the stopwatch
-    void start() {
-        if (!running) {
+    void start() 
+    {
+        if (!running) 
+        {
             startTime = clock::now();
             running = true;
         }
     }
 
     // Stop/pause the stopwatch
-    void stop() {
-        if (running) {
+    void stop() 
+    {
+        if (running) 
+        {
             auto now = clock::now();
             elapsed += std::chrono::duration_cast<duration>(now - startTime);
             running = false;
@@ -31,24 +35,29 @@ public:
     }
 
     // Reset stopwatch to zero
-    void reset() {
+    void reset() 
+    {
         elapsed = duration::zero();
         running = false;
     }
 
     // Return elapsed duration (ms)
-    duration toDuration() const {
-        if (running) {
+    duration toDuration() const 
+    {
+        if (running) 
+        {
             auto now = clock::now();
             return elapsed + std::chrono::duration_cast<duration>(now - startTime);
         }
-        else {
+        else 
+        {
             return elapsed;
         }
     }
 
     // Human-readable string "HH:MM:SS.mmm"
-    std::string toString(bool verbose = false) const {
+    std::string toString(bool verbose = false) const 
+    {
         auto d = toDuration();
         auto totalMs = d.count();
         auto hours = totalMs / 3600000;
@@ -98,26 +107,30 @@ public:
     }
 
     // Operator overloads
-    Stopwatch operator+(const Stopwatch& other) const {
+    Stopwatch operator+(const Stopwatch& other) const 
+    {
         Stopwatch result;
         result.elapsed = this->toDuration() + other.toDuration();
         return result;
     }
 
-    Stopwatch operator-(const Stopwatch& other) const {
+    Stopwatch operator-(const Stopwatch& other) const 
+    {
         Stopwatch result;
         auto diff = this->toDuration() - other.toDuration();
         result.elapsed = (diff.count() >= 0) ? diff : duration::zero();
         return result;
     }
 
-    Stopwatch& operator+=(const Stopwatch& other) {
+    Stopwatch& operator+=(const Stopwatch& other) 
+    {
         this->elapsed = this->toDuration() + other.toDuration();
         running = false;
         return *this;
     }
 
-    Stopwatch& operator-=(const Stopwatch& other) {
+    Stopwatch& operator-=(const Stopwatch& other) 
+    {
         auto diff = this->toDuration() - other.toDuration();
         this->elapsed = (diff.count() >= 0) ? diff : duration::zero();
         running = false;
@@ -130,13 +143,18 @@ private:
     bool running;
 };
 
-class RunRecorder {
+//
+// RunRecorder class to manage multiple runs of Stopwatch
+class RunRecorder 
+{
 public:
-    struct Run {
+    struct Run 
+    {
         int runNumber;
         std::chrono::milliseconds duration;
 
-        std::string toString(bool verbose = false) const {
+        std::string toString(bool verbose = false) const 
+        {
             auto totalMs = duration.count();
             auto hours = totalMs / 3600000;
             totalMs %= 3600000;
@@ -157,25 +175,29 @@ public:
             }
             else
             {
-                if (hours > 0) {
+                if (hours > 0) 
+                {
                     oss << std::setfill('0')
                         << std::setw(2) << hours << ":"
                         << std::setw(2) << minutes << ":"
                         << std::setw(2) << seconds << "."
                         << std::setw(3) << ms << " HR ";
                 }
-                else if (minutes > 0) {
+                else if (minutes > 0) 
+                {
                     oss << std::setfill('0')
                         << std::setw(2) << minutes << ":"
                         << std::setw(2) << seconds << "."
                         << std::setw(3) << ms << " MIN";
                 }
-                else if (seconds > 0) {
+                else if (seconds > 0) 
+                {
                     oss << std::setfill('0')
                         << std::setw(2) << seconds << "."
                         << std::setw(3) << ms << " SEC";
                 }
-                else {
+                else 
+                {
                     oss << std::setfill('0')
                         << std::setw(3) << ms << " MS";
                 }
@@ -189,32 +211,39 @@ public:
 
     RunRecorder(std::string initName) : currentRunNumber(1), name(initName) {}
 
-    void start() {
+    void start() 
+    {
         sw.start();
     }
 
-    void stop() {
+    void stop() 
+    {
         sw.stop();
     }
 
-    void reset() {
+    void reset() 
+    {
         // finalize the current run
-        if (sw.toDuration().count() > 0) {
+        if (sw.toDuration().count() > 0) 
+        {
             runs.push_back({ currentRunNumber, sw.toDuration() });
             ++currentRunNumber;
         }
         sw.reset();
     }
 
-    std::chrono::milliseconds Sum() const {
+    std::chrono::milliseconds Sum() const 
+    {
         std::chrono::milliseconds total{ 0 };
-        for (const auto& run : runs) {
+        for (const auto& run : runs) 
+        {
             total += run.duration;
         }
         return total;
     }
 
-    std::chrono::milliseconds Average() const {
+    std::chrono::milliseconds Average() const
+    {
         if (runs.empty()) {
             return std::chrono::milliseconds{ 0 };
         }
@@ -222,45 +251,52 @@ public:
     }
 
 
-    std::chrono::milliseconds toDuration() const {
+    std::chrono::milliseconds toDuration() const
+    {
         return sw.toDuration();
     }
 
-    std::string toString(bool verbose = false) const {
+    std::string toString(bool verbose = false) const
+    {
         return sw.toString(verbose);
     }
 
-    const std::vector<Run>& getRuns() const {
+    const std::vector<Run>& getRuns() const
+    {
         return runs;
     }
 
-    std::string runsToString() const {
+    std::string runsToString() const
+    {
         std::ostringstream oss;
 		oss << name << "\t\t";
-        for (const auto& run : runs) {
+        for (const auto& run : runs)
+        {
             oss << run.toString() << "\t";
         }
         return oss.str();
     }
 
-    void saveToTxt(const std::string& path,
-        const std::string& header = "",
-        const std::string& footer = "") const
+    void saveToTxt(const std::string& path, const std::string& header = "", const std::string& footer = "") const
     {
         std::ofstream out(path);
-        if (!out.is_open()) {
+        if (!out.is_open())
+        {
             throw std::runtime_error("Failed to open file: " + path);
         }
 
-        if (!header.empty()) {
+        if (!header.empty())
+        {
             out << header << "\n";
         }
 
-        for (const auto& run : runs) {
+        for (const auto& run : runs)
+        {
             out << run.toString() << "\n";
         }
 
-        if (!footer.empty()) {
+        if (!footer.empty())
+        {
             out << footer << "\n";
         }
 
@@ -270,20 +306,24 @@ public:
     //
     // Operators
     //
-    RunRecorder operator+(const RunRecorder& other) const {
+    RunRecorder operator+(const RunRecorder& other) const
+    {
         return combine(other, true);
     }
 
-    RunRecorder operator-(const RunRecorder& other) const {
+    RunRecorder operator-(const RunRecorder& other) const
+    {
         return combine(other, false);
     }
 
-    RunRecorder& operator+=(const RunRecorder& other) {
+    RunRecorder& operator+=(const RunRecorder& other)
+    {
         *this = *this + other;
         return *this;
     }
 
-    RunRecorder& operator-=(const RunRecorder& other) {
+    RunRecorder& operator-=(const RunRecorder& other)
+    {
         *this = *this - other;
         return *this;
     }
@@ -293,19 +333,20 @@ private:
     std::vector<Run> runs;
     int currentRunNumber;
 
-    RunRecorder combine(const RunRecorder& other, bool isAddition) const {
+    RunRecorder combine(const RunRecorder& other, bool isAddition) const
+    {
         RunRecorder result((isAddition ? "" : "((") + name + (isAddition ? "+" : ")-(") + other.name + (isAddition ? "" : "))"));
 
         size_t maxCount = std::max(runs.size(), other.runs.size());
         result.runs.reserve(maxCount);
 
-        for (size_t i = 0; i < maxCount; ++i) {
+        for (size_t i = 0; i < maxCount; ++i)
+        {
             int runNum = static_cast<int>(i) + 1;
             auto dur1 = (i < runs.size()) ? runs[i].duration : std::chrono::milliseconds(0);
             auto dur2 = (i < other.runs.size()) ? other.runs[i].duration : std::chrono::milliseconds(0);
 
             std::chrono::milliseconds newDur = isAddition ? (dur1 + dur2) : (dur1 - dur2);
-            //if (newDur.count() < 0) newDur = std::chrono::milliseconds(0); // clamp negative durations
 
             result.runs.push_back({ runNum, newDur });
         }
