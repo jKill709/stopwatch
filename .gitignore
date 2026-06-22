@@ -1,13 +1,70 @@
+# =========================
+# Build directories
+# =========================
 build/
+out/
+cmake-build-*/
+install/
 
-.vscode/
-.idea/
 
-*.exe
-*.dll
-*.obj
-*.pdb
-
+# =========================
+# CMake
+# =========================
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+compile_commands.json
+*_deps/
+
+
+# =========================
+# Visual Studio / MSVC
+# =========================
+.vs/
+.vscode/
+
+*.VC.db
+*.VC.VC.opendb
+
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+ipch/
+*.ipch/
+
+
+# =========================
+# Binaries / artifacts
+# =========================
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.obj
+*.o
+*.lib
+*.exp
+
+
+# =========================
+# GoogleTest / test artifacts
+# =========================
+TestResults/
+*.xml
+
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+
+# =========================
+# Optional: logs
+# =========================
+*.log
