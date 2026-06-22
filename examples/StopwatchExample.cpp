@@ -5,7 +5,7 @@
 
 int main()
 {
-    Stopwatch sw;
+    jTools::Stopwatch sw;
 
 
     std::cout 
@@ -31,7 +31,7 @@ int main()
         << "\n";
 
 
-    RunRecorder recorder("Test");
+    jTools::RunRecorder recorder("Test");
 
 
     recorder.start();

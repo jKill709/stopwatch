@@ -65,6 +65,7 @@ target_link_libraries(
     StopwatchTests
     PRIVATE
     Stopwatch
+    GTest::gtest
     GTest::gtest_main
 )
 
