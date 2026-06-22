@@ -2,6 +2,7 @@
 
 A lightweight header-only C++ stopwatch and run recorder utility.
 
+
 ## Features
 
 - Millisecond precision timing
@@ -27,6 +28,8 @@ timer.stop();
 
 std::cout << timer.toString();
 ```
+
+See StopwatchExample.cpp for more detailed usages.
 
 ## Requirements
 

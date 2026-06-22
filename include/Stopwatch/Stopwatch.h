@@ -1,9 +1,12 @@
 #pragma once
 
+#include <algorithm>
 #include <chrono>
-#include <string>
-#include <sstream>
 #include <iomanip>
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 class Stopwatch {
